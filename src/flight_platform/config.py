@@ -17,24 +17,31 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # OpenSky
+    # --- OpenSky ---
     opensky_base_url: str = "https://opensky-network.org/api"
+    opensky_token_url: str = (
+        "https://auth.opensky-network.org/auth/realms/opensky-network"
+        "/protocol/openid-connect/token"
+    )
     opensky_client_id: str | None = None
     opensky_client_secret: str | None = None
-    opensky_poll_interval_seconds: int
+    opensky_poll_interval_seconds: int = 900
     opensky_timeout_seconds: int = 30
+    opensky_max_retries: int = 3
+    opensky_min_interval_seconds: float = 10.0  # client-side pause between API calls
+    opensky_bbox: str | None = None  # "lamin,lomin,lamax,lomax"; empty = whole world
 
-    # Data Lake
+    # --- Data Lake ---
     data_dir: Path = Field(default=PROJECT_ROOT / "data")
 
-    # SQL Server
-    sqlserver_host: str
-    sqlserver_port: int
-    sqlserver_database: str
-    sqlserver_user: str
-    sqlserver_password: str
+    # --- SQL Server ---
+    sqlserver_host: str = "localhost"
+    sqlserver_port: int = 1433
+    sqlserver_database: str = "flight_dw"
+    sqlserver_user: str = "sa"
+    sqlserver_password: str = ""
 
-    # Logging
+    # --- Logging ---
     log_level: str = "INFO"
 
     # Derived paths

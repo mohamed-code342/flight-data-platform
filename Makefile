@@ -1,7 +1,7 @@
 .PHONY: install test lint format
 
 install:
-	pip install -e ".[dev]"
+	pip install -e ".[dev,spark]"
 
 test:
 	pytest
@@ -12,3 +12,7 @@ lint:
 format:
 	ruff check --fix src tests
 	ruff format src tests
+
+ingest:
+	python -m flight_platform.ingestion.main --limit 5
+	

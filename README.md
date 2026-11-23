@@ -21,7 +21,7 @@ make test
 ## Status
 
 - [x] Phase 0 - project skeleton, config, logging
-- [ ] Phase 1 - OpenSky ingestion
+- [x] Phase 1 - OpenSky ingestion (`make ingest`)
 - [ ] Phase 2 - Bronze
 - [ ] Phase 3 - Silver + data quality
 - [ ] Phase 4 - Gold
