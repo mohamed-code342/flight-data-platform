@@ -18,3 +18,7 @@ ingest:
 
 bronze:
 	python -m flight_platform.transformations.bronze	
+	
+silver:
+	python -m flight_platform.transformations.silver
+	
