@@ -41,6 +41,9 @@ class Settings(BaseSettings):
     sqlserver_user: str = "sa"
     sqlserver_password: str = ""
 
+    # --- Spark ---
+    spark_master: str = "local[*]"
+
     # --- Logging ---
     log_level: str = "INFO"
 

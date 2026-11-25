@@ -15,4 +15,6 @@ format:
 
 ingest:
 	python -m flight_platform.ingestion.main --limit 5
-	
+
+bronze:
+	python -m flight_platform.transformations.bronze	

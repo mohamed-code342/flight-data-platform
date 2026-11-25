@@ -18,11 +18,13 @@ make install
 make test
 ```
 
+Spark needs Java 17 or newer (`java -version`). On Windows, use WSL2.
+
 ## Status
 
 - [x] Phase 0 - project skeleton, config, logging
 - [x] Phase 1 - OpenSky ingestion (`make ingest`)
-- [ ] Phase 2 - Bronze
+- [x] Phase 2 - Bronze (`make bronze`, needs Java 17+)
 - [ ] Phase 3 - Silver + data quality
 - [ ] Phase 4 - Gold
 - [ ] Phase 5 - SQL Server warehouse

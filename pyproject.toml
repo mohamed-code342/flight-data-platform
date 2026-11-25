@@ -7,7 +7,7 @@ name = "flight-platform"
 version = "0.1.0"
 description = "Batch data engineering platform for flight traffic analytics (OpenSky -> Parquet lake -> SQL Server -> Power BI)"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "requests>=2.31",
     "pandas>=2.0",
@@ -28,7 +28,7 @@ pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py314"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
