@@ -64,6 +64,10 @@ class Settings(BaseSettings):
     def quarantine_dir(self) -> Path:
         return self.data_dir / "quarantine"
 
+    @property
+    def sql_dir(self) -> Path:
+        return PROJECT_ROOT / "sql"
+
 
 @lru_cache
 def get_settings() -> Settings:

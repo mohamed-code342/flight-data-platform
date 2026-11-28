@@ -13,6 +13,7 @@ dependencies = [
     "pandas>=2.0",
     "pyarrow>=14.0",
     "pydantic-settings>=2.2",
+    "pymssql",
 ]
 
 [project.optional-dependencies]
