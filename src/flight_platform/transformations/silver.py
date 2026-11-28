@@ -19,6 +19,7 @@ from flight_platform.config import settings
 from flight_platform.log_config import get_logger
 from flight_platform.quality.checks import apply_quality_checks
 from flight_platform.spark_session import get_spark
+from flight_platform.transformations.lake import read_date, write_date_partitions
 
 logger = get_logger(__name__)
 
@@ -71,16 +72,6 @@ def deduplicate(df: DataFrame) -> DataFrame:
     return df.withColumn("_rn", F.row_number().over(window)).filter("_rn = 1").drop("_rn")
 
 
-def _write_date_partitions(df: DataFrame, path: Path) -> None:
-    """Replace only the date partitions present in df (leave other dates untouched)."""
-    (
-        df.write.mode("overwrite")
-        .option("partitionOverwriteMode", "dynamic")
-        .partitionBy("date")
-        .parquet(str(path))
-    )
-
-
 def run_silver(
     date: str | None = None,
     spark: SparkSession | None = None,
@@ -94,13 +85,11 @@ def run_silver(
     silver_dir = silver_dir or settings.silver_dir
     quarantine_dir = quarantine_dir or settings.quarantine_dir
 
-    partition = bronze_dir / f"date={date}"
-    if not partition.exists():
-        logger.warning("No Bronze data for %s (%s); nothing to do", date, partition)
-        return {"valid": 0, "rejected": 0}
-
     spark = spark or get_spark("silver")
-    bronze = spark.read.option("basePath", str(bronze_dir)).parquet(str(partition))
+    bronze = read_date(spark, bronze_dir, date)
+    if bronze is None:
+        logger.warning("No Bronze data for %s in %s; nothing to do", date, bronze_dir)
+        return {"valid": 0, "rejected": 0}
 
     valid, invalid = apply_quality_checks(clean(bronze))
     silver = deduplicate(valid).cache()
@@ -108,9 +97,9 @@ def run_silver(
     counts = {"valid": silver.count(), "rejected": rejected.count()}
 
     if counts["valid"]:
-        _write_date_partitions(silver, silver_dir)
+        write_date_partitions(silver, silver_dir)
     if counts["rejected"]:
-        _write_date_partitions(rejected, quarantine_dir)
+        write_date_partitions(rejected, quarantine_dir)
 
     silver.unpersist()
     rejected.unpersist()

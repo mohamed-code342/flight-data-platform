@@ -22,3 +22,6 @@ bronze:
 silver:
 	python -m flight_platform.transformations.silver
 	
+gold:
+	python -m flight_platform.transformations.gold
+	
