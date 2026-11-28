@@ -25,7 +25,7 @@ Spark needs Java 17 or newer (`java -version`). On Windows, use WSL2.
 - [x] Phase 0 - project skeleton, config, logging
 - [x] Phase 1 - OpenSky ingestion (`make ingest`)
 - [x] Phase 2 - Bronze (`make bronze`, needs Java 17+)
-- [ ] Phase 3 - Silver + data quality
+- [x] Phase 3 - Silver + data quality
 - [ ] Phase 4 - Gold
 - [ ] Phase 5 - SQL Server warehouse
 - [ ] Phase 6 - Power BI
